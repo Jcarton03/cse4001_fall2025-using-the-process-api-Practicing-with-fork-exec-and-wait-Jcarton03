@@ -53,11 +53,11 @@ Use the Linux in your CSE4001 container. If you are using macOS, you may use the
 
 ```cpp
 // Add your code or answer here. You can also add screenshots showing your program's execution.
-The child process inherits the value of the variable before its process is called. If the value is changed in both the child and parent,
-both operations change the initial value of the variable.
-In my code, I set x = 5. I then increment x once in both the child and parent processes, and they both output 6.
+//The child process inherits the value of the variable before its process is called. If the value is changed in both the child and parent,
+//both operations change the initial value of the variable.
+//In my code, I set x = 5. I then increment x once in both the child and parent processes, and they both output 6.
 
-My Code:
+//My Code:
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
