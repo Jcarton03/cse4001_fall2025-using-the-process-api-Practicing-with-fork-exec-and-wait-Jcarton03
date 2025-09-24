@@ -90,7 +90,39 @@ main(int argc, char *argv[])
 2. Write a program that opens a file (with the `open()` system call) and then calls `fork()` to create a new process. Can both the child and parent access the file descriptor returned by `open()`? What happens when they are writing to the file concurrently, i.e., at the same time?
 
 ```cpp
-// Add your code or answer here. You can also add screenshots showing your program's execution.  
+// Add your code or answer here. You can also add screenshots showing your program's execution.
+// Both child and parent processes can access the same file descriptor returned by open(), and when writing to it concurrently,
+// in my example, the parent goes first, then the child.
+
+// My Code:
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+
+int main() {
+    int fd = open("output.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644); // Creating and sets the destination for write()
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("fork");
+        exit(1);
+    }
+
+    const char *msg;
+    if (pid == 0) {
+        // Child process
+        msg = "Child writing to file...\n";
+        write(fd, msg, strlen(msg)); // Should be writing at the same time as parent
+    } else {
+        // Parent process
+        msg = "Parent writing to file...\n";
+        write(fd, msg, strlen(msg)); // Should be writing with the child, but goes first
+    }
+
+    close(fd);
+     return 0;
+}
 ```
 
 3. Write another program using `fork()`.The child process should print “hello”; the parent process should print “goodbye”. You should try to ensure that the child process always prints first; can you do this without calling `wait()` in the parent?
